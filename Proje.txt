@@ -1,0 +1,201 @@
+namespace Ticket_App
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string adminMail = "admin@gmail.com";
+            string adminPassword = "admin";
+
+            string customerMail = "customer@gmail.com";
+            string customerPassword = "customer";
+
+            int ticket = 0;
+            int ticketCounter = 0;
+
+        loginPoint:
+            Console.WriteLine("Enter your mail");
+            string mail = Console.ReadLine();
+            Console.Clear();
+
+
+            bool succesAuthorizedLogin = false;
+            bool succesUnAuthorizedLogin = false;
+
+            while (succesAuthorizedLogin == false)
+            {
+                if (mail.Equals(adminMail))
+                {
+                adminPass:
+                    Console.WriteLine("Enter your password");
+                    string password = Console.ReadLine();
+                    Console.Clear();
+                    if (password.Equals(adminPassword))
+                    {
+                        Console.WriteLine("Authorized Login");
+                        succesAuthorizedLogin = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wrong password");
+                        goto adminPass;
+                    }
+                }
+                else if (mail.Equals(customerMail))
+                {
+                customerPass:
+                    Console.WriteLine("Enter your password");
+                    string password = Console.ReadLine();
+                    Console.Clear();
+                    if (password.Equals(customerPassword))
+                    {
+                        Console.WriteLine("Customer Login");
+                        succesUnAuthorizedLogin = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wrong password");
+                        goto customerPass;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Wrong mail");
+                    goto loginPoint;
+
+                }
+                break;
+                {
+
+                }
+            }
+        mainMenuPoint:
+            Console.WriteLine("1_Admin-Menu\n2_Customer-Menu\n3_Exit");
+            int login = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+            switch (login)
+            {
+                case 1:
+                adminMenuPoint:
+                    if (succesAuthorizedLogin == true)
+                    {
+                        Console.WriteLine("1_Ticket stock\n2_Restock ticket\n3_Exit");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Suspicious Login!!");
+                        Console.WriteLine("*****************");
+                        goto mainMenuPoint;
+                    }
+
+                    int adminMenu = Convert.ToInt32(Console.ReadLine());
+                    Console.Clear();
+
+                    switch (adminMenu)
+                    {  
+                        case 1:
+                            Console.WriteLine("Current Ticket Amount --->" + ticket);
+                            goto adminMenuPoint;
+                            break;
+                        case 2:
+                            Console.WriteLine("Waiting for ticket amount");
+                            ticket = Convert.ToInt32(Console.ReadLine());
+                            Console.Clear();
+                            Console.WriteLine("Updated ticket amount --->" + ticket);
+                            goto adminMenuPoint;
+                            break;
+                        case 3:
+                            goto mainMenuPoint;
+                            break;
+                        default:
+                            Console.WriteLine("Wrong number");
+                            goto adminMenuPoint;
+                            break;
+                    }
+                    break;
+                case 2:
+                    if (succesUnAuthorizedLogin == true)
+                    {
+                    customerMenuPoint:
+                        Console.WriteLine("--");
+                        Console.WriteLine("1_Ticket stock\n2_Buy a ticket\n3_Exit\n4_Restock Ticket");
+                        int customerMenu = Convert.ToInt32(Console.ReadLine());
+                        Console.Clear();
+                        switch (customerMenu)
+                        {
+                            case 1:
+                                Console.WriteLine("Current ticket amount --->" + ticket);
+                                goto customerMenuPoint;
+                                break;
+
+                            case 2:
+                                Console.WriteLine("1_Buy ticket\n2_Cancel");
+                                if (ticket <= 0)
+                                {
+                                    Console.WriteLine("Out of Ticket");
+                                    Console.WriteLine("************");
+                                    goto customerMenuPoint;
+                                }
+                                else
+                                {
+                                    int ticketBuy = Convert.ToInt32(Console.ReadLine());
+                                    Console.Clear();
+                                    switch (ticketBuy)
+                                    {
+                                        case 1:
+                                            Console.WriteLine("How many tickets you want to buy");
+                                            int ticketAmount= Convert.ToInt32(Console.ReadLine());    
+
+                                            Console.WriteLine("Successful purchase");
+                                            ticket = ticket - ticketAmount;
+                                            ticketCounter = ticketCounter+ticketAmount;
+                                            goto customerMenuPoint;
+                                            break;
+                                        case 2:
+                                            goto customerMenuPoint;
+                                    }
+                                }
+                                break;
+                            case 3:
+                                goto mainMenuPoint;
+                                ; break;
+                            case 4:
+                                Console.WriteLine("You are not authorized for restock");
+                                goto mainMenuPoint;
+                                break;
+                            default:
+                                Console.WriteLine("Wrong number");
+                                goto mainMenuPoint;
+                                break;
+                        }
+                    }
+                    else if (succesAuthorizedLogin == true)
+
+                    {
+                        Console.WriteLine("1_Check amount of ticket sold");
+                        int customerCheck=Convert.ToInt32(Console.ReadLine());
+                        switch (customerCheck)
+                        {
+                            case 1:
+                                Console.WriteLine("Current amount of tickets sold --->" + ticketCounter);
+                                goto adminMenuPoint;
+                                break; break;
+                        }
+                                goto mainMenuPoint;                
+                    }
+
+                    break;
+                case 3:
+                    goto loginPoint;
+                    break;
+                default:
+                    Console.WriteLine("Wrong number");
+                    goto mainMenuPoint;
+                    break;
+
+            }
+        }
+    }
+}
+
+21:12 24.09.2024
